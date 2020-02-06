@@ -49,6 +49,13 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!--spring-boot-starter-xxx-->
+        <!--xxx-spring-boot-starter-->
+        <!--spring-cloud-starter-{spring cloud 子项目的名称}-{模块名称}-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>

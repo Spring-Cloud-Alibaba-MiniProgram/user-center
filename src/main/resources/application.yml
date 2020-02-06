@@ -7,3 +7,22 @@ spring:
       # >= 8.x: com.mysql.cj.jdbc.Driver
       # <= 5.x: com.mysql.jdbc.Driver
       driver-class-name: com.mysql.cj.jdbc.Driver
+
+  cloud:
+    nacos:
+      discovery:
+        # 指定 nacos server 的地址
+        server-addr: localhost:8848
+        # 指定 namespace
+        # namespace: 777cec93-3f26-45f3-91cd-fe61bb5352a6
+        # 指定集群名称
+        # 假设服务机房部署在 CD
+        # cluster-name: CD
+        # 设置元数据
+        metadata:
+          instance: content
+          haha: hehe
+          version: v1
+  application:
+    # 服务名称尽量使用 -，不要用 _，不要用特殊字符
+    name: user-center

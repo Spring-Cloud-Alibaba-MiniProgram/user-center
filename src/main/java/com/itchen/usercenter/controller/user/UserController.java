@@ -2,6 +2,7 @@ package com.itchen.usercenter.controller.user;
 
 import com.itchen.usercenter.domain.entity.user.User;
 import com.itchen.usercenter.service.user.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/users")
+@Slf4j
 public class UserController {
 
     @Autowired
@@ -24,6 +26,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public User findById(@PathVariable Integer id) {
+        log.info("我被请求了...");
         return userService.findById(id);
     }
 

@@ -2,6 +2,8 @@ package com.itchen.usercenter;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.messaging.Sink;
 import tk.mybatis.spring.annotation.MapperScan;
 
 /**
@@ -11,8 +13,9 @@ import tk.mybatis.spring.annotation.MapperScan;
  * @version v1.0
  * @since 2020-02-05
  */
-@MapperScan("com.itchen")
+@MapperScan("com.itchen.usercenter.dao")
 @SpringBootApplication
+@EnableBinding({Sink.class})
 public class UserCenterApplication {
 
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package com.itchen.usercenter.service.user;
+package com.itchen.usercenter.rocketmq;
 
 import com.itchen.usercenter.dao.bonus.BonusEventLogMapper;
 import com.itchen.usercenter.dao.user.UserMapper;
@@ -6,22 +6,24 @@ import com.itchen.usercenter.domain.dto.messaging.UserAddBonusMsgDTO;
 import com.itchen.usercenter.domain.entity.bonus.BonusEventLog;
 import com.itchen.usercenter.domain.entity.user.User;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
+import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
 /**
- * 用户服务类 .
+ * 用户中心-积分消息监听器 .
  *
  * @author BibiChen
  * @version v1.0
- * @since 2020-02-05
+ * @since 2020-02-09
  */
-@Service
 @Slf4j
-public class UserService {
+@Service
+@RocketMQMessageListener(consumerGroup = "consumer-group", topic = "add-bonus")
+public class AddBonusListener implements RocketMQListener<UserAddBonusMsgDTO> {
 
     @Autowired
     private UserMapper userMapper;
@@ -29,16 +31,12 @@ public class UserService {
     @Autowired
     private BonusEventLogMapper bonusEventLogMapper;
 
-    public User findById(Integer id) {
-        return this.userMapper.selectByPrimaryKey(id);
-    }
-
-    @Transactional(rollbackFor = Exception.class)
-    public void addBonus(UserAddBonusMsgDTO msgDTO) {
+    @Override
+    public void onMessage(UserAddBonusMsgDTO message) {
         // 当收到消息的时候，执行的业务
         // 1. 为用户加积分
-        Integer userId = msgDTO.getUserId();
-        Integer bonus = msgDTO.getBonus();
+        Integer userId = message.getUserId();
+        Integer bonus = message.getBonus();
         User user = this.userMapper.selectByPrimaryKey(userId);
         user.setBonus(user.getBonus() + bonus);
         this.userMapper.updateByPrimaryKey(user);
@@ -55,6 +53,5 @@ public class UserService {
         );
         log.info("积分添加完毕...");
     }
-
 
 }

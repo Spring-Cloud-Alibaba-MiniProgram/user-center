@@ -3,6 +3,7 @@ package com.itchen.usercenter.service.user;
 import com.itchen.usercenter.dao.bonus.BonusEventLogMapper;
 import com.itchen.usercenter.dao.user.UserMapper;
 import com.itchen.usercenter.domain.dto.messaging.UserAddBonusMsgDTO;
+import com.itchen.usercenter.domain.dto.user.UserLoginDTO;
 import com.itchen.usercenter.domain.entity.bonus.BonusEventLog;
 import com.itchen.usercenter.domain.entity.user.User;
 import lombok.extern.slf4j.Slf4j;
@@ -56,5 +57,26 @@ public class UserService {
         log.info("积分添加完毕...");
     }
 
+    public User login(UserLoginDTO loginDTO, String openId) {
+        User user = this.userMapper.selectOne(
+                User.builder()
+                        .wxId(openId)
+                        .build()
+        );
+        if (user == null) {
+            User userToSave = User.builder()
+                    .wxId(openId)
+                    .bonus(300)
+                    .wxNickname(loginDTO.getWxNickname())
+                    .avatarUrl(loginDTO.getAvatarUrl())
+                    .roles("user")
+                    .createTime(new Date())
+                    .updateTime(new Date())
+                    .build();
+            this.userMapper.insertSelective(userToSave);
+            return userToSave;
+        }
+        return user;
+    }
 
 }

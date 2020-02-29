@@ -2,7 +2,7 @@ package com.itchen.usercenter.controller.user;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
-import com.itchen.usercenter.auth.Auth;
+import com.itchen.usercenter.auth.Authentication;
 import com.itchen.usercenter.domain.dto.user.JwtTokenRespDTO;
 import com.itchen.usercenter.domain.dto.user.LoginRespDTO;
 import com.itchen.usercenter.domain.dto.user.UserLoginDTO;
@@ -39,7 +39,7 @@ public class UserController {
 
 
     @GetMapping("/{id}")
-    @Auth
+    @Authentication
     public User findById(@PathVariable Integer id) {
         log.info("我被请求了...");
         return userService.findById(id);

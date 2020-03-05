@@ -46,6 +46,7 @@ server:
 logging:
   level:
     com.alibaba.nacos: error
+    org.springframework.cloud.sleuth: debug
 
 rocketmq:
   name-server: 127.0.0.1:9876
